@@ -60,7 +60,9 @@ export class UsersService {
       return await bcrypt.hash(password, saltRounds);
     }
 
-    
+    // async function comparePasswords(plainTextPassword: string, hashedPassword: string): Promise<boolean> {
+    //   return await bcrypt.compare(plainTextPassword, hashedPassword);
+    // }
 
     } catch (error) {
       return error;
