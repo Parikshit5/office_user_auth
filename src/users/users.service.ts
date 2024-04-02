@@ -5,7 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import {  User_entity } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { JwtService } from '@nestjs/jwt';
-import { find } from 'rxjs';
+import * as bcrypt from 'bcrypt';
 
 
 @Injectable()
@@ -21,7 +21,9 @@ export class UsersService {
     try {
       let existing_email = await this.Users.find({ where: { email: createUserDto.email } });
       let mobile_no=await this.Users.findOne({ where: { mobile_no: createUserDto.mobile_no } });
-
+      let password= await hashPassword(createUserDto.password);
+      createUserDto.password=password;
+      
       if(createUserDto.email){
         function isValidEmail(email: string): boolean {
           const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -52,6 +54,15 @@ export class UsersService {
     //Email doesn't exist, proceed with user creation
     const newUser = await this.Users.save(createUserDto);
     return newUser;
+
+    async function hashPassword(password: string): Promise<string> {
+      const saltRounds = 10; // You can adjust this value according to your security needs
+      return await bcrypt.hash(password, saltRounds);
+    }
+
+    async function comparePasswords(plainTextPassword: string, hashedPassword: string): Promise<boolean> {
+      return await bcrypt.compare(plainTextPassword, hashedPassword);
+    }
 
     } catch (error) {
       return error;
