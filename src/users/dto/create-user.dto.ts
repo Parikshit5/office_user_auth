@@ -1,22 +1,27 @@
 import { ApiProperty } from "@nestjs/swagger";
+// create-user.dto.ts
+import { IsNotEmpty, IsEmail, IsPhoneNumber, Length } from 'class-validator';
 
 export class CreateUserDto {
-        // @ApiProperty({ description: 'The ID of the report' })
-        id: string;
-    
-        @ApiProperty()
-        name:string;
+ @ApiProperty()
+  @IsNotEmpty()
+  name: string;
 
-        @ApiProperty()
-        email:string;
+  @ApiProperty()
+  @IsEmail()
+  email: string;
 
-        @ApiProperty()
-        password:string;
+  @ApiProperty()
+  @IsNotEmpty()
+  password: string;
 
-        @ApiProperty()
-        mobile_no:string;
+  @ApiProperty()
+  @IsNotEmpty()
+  @Length(10, 10, { message: 'Mobile number must be exactly 10 digits' })
+  @IsPhoneNumber('IN', { message: 'Invalid mobile number' })
+  mobile_no: string;
 
-        @ApiProperty()
-        address:string;
-
+  @ApiProperty()
+  @IsNotEmpty()
+  address: string;
 }
