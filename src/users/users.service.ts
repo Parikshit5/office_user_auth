@@ -13,6 +13,17 @@ export class UsersService {
     private readonly Users: Repository<User_entity>
   ) { }
   async sign_up(createUserDto: CreateUserDto) {
+    try {
+      const name=createUserDto.name;
+      const email=createUserDto.email;
+      const password=createUserDto.password;
+      const mobile_no=createUserDto.mobile_no;
+      const address=createUserDto.address;
+
+      
+    } catch (error) {
+      
+    }
      return await this.Users.save(createUserDto);
   }
 
