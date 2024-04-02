@@ -5,6 +5,8 @@ import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { join } from 'path';
 import * as dotenv from 'dotenv';
+import { UsersService } from './users/users.service';
+import { User_entity } from './users/entities/user.entity';
 dotenv.config();
 
 
@@ -21,8 +23,9 @@ dotenv.config();
       entities: [join(process.cwd(),'dist/**/*.entity.js')],
       synchronize: true,
     }),
+    TypeOrmModule.forFeature([User_entity]),
     UsersModule],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService,UsersService],
 })
 export class AppModule {}
