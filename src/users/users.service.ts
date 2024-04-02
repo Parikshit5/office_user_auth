@@ -22,6 +22,15 @@ export class UsersService {
       let existing_email = await this.Users.find({ where: { email: createUserDto.email } });
       let mobile_no=await this.Users.findOne({ where: { mobile_no: createUserDto.mobile_no } });
 
+      if(createUserDto.email){
+        function isValidEmail(email: string): boolean {
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          return emailRegex.test(email);
+        }
+        if (!isValidEmail(createUserDto.email)) {
+          return ('Please enter a valid email');
+        }
+      }
       
     if (existing_email.length) {
       let msg='Email already exists';
@@ -36,15 +45,7 @@ export class UsersService {
       return msg;
     }
 
-    if(createUserDto.email){
-      function isValidEmail(email: string): boolean {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(email);
-      }
-      if (!isValidEmail(createUserDto.email)) {
-        return ('Please enter a valid email');
-      }
-    }
+  
 
      
 
