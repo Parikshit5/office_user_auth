@@ -60,9 +60,7 @@ export class UsersService {
       return await bcrypt.hash(password, saltRounds);
     }
 
-    async function comparePasswords(plainTextPassword: string, hashedPassword: string): Promise<boolean> {
-      return await bcrypt.compare(plainTextPassword, hashedPassword);
-    }
+    
 
     } catch (error) {
       return error;
@@ -71,6 +69,10 @@ export class UsersService {
 
   async login(logindto) {
     try{
+      async function comparePasswords(plainTextPassword: string, hashedPassword: string): Promise<boolean> {
+        return await bcrypt.compare(plainTextPassword, hashedPassword);
+      }
+      
       const user = await this.Users.findOne({
         where:[{email:logindto.email}]
       })
@@ -80,10 +82,15 @@ export class UsersService {
       }
       
       
-      else if (user.password !== logindto.password) {
-        //throw new UnauthorizedException();
-        return "Password does not match";
+      let result=await comparePasswords(logindto.password,user.password);
+       if(result===false){
+        return 'Password does not match'
       }
+      
+
+      
+
+      
       const payload = { sub: user.email, username: user.email };
       return {
         id:user.id,
