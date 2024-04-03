@@ -3,9 +3,10 @@ import { CreateUserDto } from './create-user.dto';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class UpdateUserDto extends PartialType(CreateUserDto) {
+    
     @ApiProperty()
-    mobile_number:number
+    name:string;
 
     @ApiProperty()
-    salesaabname:string
+    mobile_number:number
 }
