@@ -1,5 +1,5 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
+import { CreateUserDto, ResetPasswordDto, forgetPasswordDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import {  User_entity } from './entities/user.entity';
@@ -118,7 +118,7 @@ export class UsersService {
     }
   }
 
-  async forgetPassword(forgetPasswordDto) {
+  async forgetPassword(forgetPasswordDto:forgetPasswordDto) {
 
     async function comparePasswords(plainTextPassword: string, hashedPassword: string): Promise<boolean> {
         return await bcrypt.compare(plainTextPassword, hashedPassword);
@@ -157,11 +157,11 @@ export class UsersService {
       }
   }
 
-  async resetPassword(resetPasswordDto,userEmail) {
+  async resetPassword(resetPasswordDto:ResetPasswordDto,userEmail) {
 
     async function comparePasswords(plainTextPassword: string, hashedPassword: string): Promise<boolean> {
         return await bcrypt.compare(plainTextPassword, hashedPassword);
-      } 
+      }
 
       async function hashPassword(password: string): Promise<string> {
         const saltRounds = 10; // You can adjust this value according to your security needs

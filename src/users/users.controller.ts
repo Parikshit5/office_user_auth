@@ -1,12 +1,12 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards ,Request} from '@nestjs/common';
 import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { CreateUserDto, LoginUserDto, ResetPasswordDto, forgetPasswordDto } from './dto/create-user.dto';
+
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { LoginUserDto } from './dto/login-user.dto';
+
 import { AuthGuard } from './users.guard';
-import { forgetPasswordDto } from './dto/forget-password.dto';
-import { ResetPasswordDto } from './dto/reset-password.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
+
 
 @ApiTags('Users')
 @Controller('users')
