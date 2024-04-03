@@ -6,7 +6,7 @@ import {  User_entity } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-import { forgetPasswordDto } from './dto/forget-password.dto';
+
 
 
 @Injectable()
@@ -118,7 +118,7 @@ export class UsersService {
     }
   }
 
-  async forgetPassword(forgetPasswordDto:forgetPasswordDto) {
+  async forgetPassword(forgetPasswordDto) {
 
     async function comparePasswords(plainTextPassword: string, hashedPassword: string): Promise<boolean> {
         return await bcrypt.compare(plainTextPassword, hashedPassword);
@@ -128,6 +128,7 @@ export class UsersService {
         const saltRounds = 10; // You can adjust this value according to your security needs
         return await bcrypt.hash(password, saltRounds);
       }
+
       let newpassword=await hashPassword(forgetPasswordDto.newpassword);
 
       const user = await this.Users.findOne({
