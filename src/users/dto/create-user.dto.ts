@@ -25,3 +25,39 @@ export class CreateUserDto {
   @IsNotEmpty()
   address: string;
 }
+
+export class forgetPasswordDto{
+
+  @ApiProperty()
+  email:string
+
+  @ApiProperty()
+  oldpassword:string
+  
+  @ApiProperty()
+  newpassword:string
+
+
+}
+
+export class LoginUserDto{
+  @ApiProperty()
+  email:string;
+
+  @ApiProperty()
+  password:string;
+}
+
+export class ResetPasswordDto{
+
+    
+
+  @ApiProperty()
+  oldpassword:string
+  
+  @ApiProperty()
+  newpassword:string
+
+
+}
+
