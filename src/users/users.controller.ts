@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards ,Request} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -6,6 +6,7 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { LoginUserDto } from './dto/login-user.dto';
 import { AuthGuard } from './users.guard';
 import { forgetPasswordDto } from './dto/forget-password.dto';
+import { ResetPasswordDto } from './dto/reset-password.dto';
 
 @ApiTags('Users')
 @Controller('users')
@@ -32,6 +33,17 @@ export class UsersController {
   @Post('forget_password')
   forgetPassword(@Body() forgetPasswordDto: forgetPasswordDto) {
     return this.usersService.forgetPassword(forgetPasswordDto)
+  }
+
+
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
+  @Post('reset_password')
+  resetPassword(@Body() resetPasswordDto: ResetPasswordDto, @Request() req) {
+    const userEmail=req.user.username
+    // console.log(userEmail);
+    
+    return this.usersService.resetPassword(resetPasswordDto,userEmail)
   }
 
   @Patch(':id')

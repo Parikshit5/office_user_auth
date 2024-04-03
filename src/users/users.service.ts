@@ -157,6 +157,44 @@ export class UsersService {
       }
   }
 
+  async resetPassword(resetPasswordDto,userEmail) {
+
+    async function comparePasswords(plainTextPassword: string, hashedPassword: string): Promise<boolean> {
+        return await bcrypt.compare(plainTextPassword, hashedPassword);
+      } 
+
+      async function hashPassword(password: string): Promise<string> {
+        const saltRounds = 10; // You can adjust this value according to your security needs
+        return await bcrypt.hash(password, saltRounds);
+      }
+      let newpassword=await hashPassword(resetPasswordDto.newpassword);
+
+      const user = await this.Users.findOne({
+        where:[{email:userEmail}]
+      })
+
+      if(!user){
+        return 'Account not found!'
+      }
+
+    let result=await comparePasswords(resetPasswordDto.oldpassword,user.password);
+       if(result===false){
+        return 'Old Password does not match'
+      }
+      if(result===true){
+        
+        await this.Users.save({
+          id:user.id,
+          name:user.name,
+          email:user.email,
+          password:newpassword,
+          mobile_no:user.mobile_no,
+          address:user.address
+        })
+        return 'Password Reset Successfully.'
+      }
+  }
+
   update(id: number, updateUserDto: UpdateUserDto) {
     return `This action updates a #${id} user`;
   }
