@@ -14,5 +14,8 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
     saalesaab:string
 
     @ApiProperty()
+    friendsname:string
+
+    @ApiProperty()
     fathername:string
 }
