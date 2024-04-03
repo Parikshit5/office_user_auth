@@ -9,4 +9,7 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
 
     @ApiProperty()
     wifename:string
+    
+    @ApiProperty()
+    saalesaab:string
 }
