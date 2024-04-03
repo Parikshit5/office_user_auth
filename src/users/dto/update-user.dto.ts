@@ -5,4 +5,7 @@ import { ApiProperty } from '@nestjs/swagger';
 export class UpdateUserDto extends PartialType(CreateUserDto) {
     @ApiProperty()
     mobile_number:number
+
+    @ApiProperty()
+    salesaabname:string
 }
