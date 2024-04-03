@@ -6,5 +6,4 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
     
     @ApiProperty()
     name:string;
-    
 }
