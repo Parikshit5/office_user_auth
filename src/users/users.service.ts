@@ -6,6 +6,7 @@ import {  User_entity } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
+import { forgetPasswordDto } from './dto/forget-password.dto';
 
 
 @Injectable()
@@ -117,8 +118,42 @@ export class UsersService {
     }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async forgetPassword(forgetPasswordDto:forgetPasswordDto) {
+
+    async function comparePasswords(plainTextPassword: string, hashedPassword: string): Promise<boolean> {
+        return await bcrypt.compare(plainTextPassword, hashedPassword);
+      } 
+
+      async function hashPassword(password: string): Promise<string> {
+        const saltRounds = 10; // You can adjust this value according to your security needs
+        return await bcrypt.hash(password, saltRounds);
+      }
+      let newpassword=await hashPassword(forgetPasswordDto.newpassword);
+
+      const user = await this.Users.findOne({
+        where:[{email:forgetPasswordDto.email}]
+      })
+
+      if(!user){
+        return 'account with this email does not exist.'
+      }
+
+    let result=await comparePasswords(forgetPasswordDto.oldpassword,user.password);
+       if(result===false){
+        return 'Old Password does not match'
+      }
+      if(result===true){
+        
+        await this.Users.save({
+          id:user.id,
+          name:user.name,
+          email:user.email,
+          password:newpassword,
+          mobile_no:user.mobile_no,
+          address:user.address
+        })
+        return 'Password updated successfully.'
+      }
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {

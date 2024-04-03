@@ -5,6 +5,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { LoginUserDto } from './dto/login-user.dto';
 import { AuthGuard } from './users.guard';
+import { forgetPasswordDto } from './dto/forget-password.dto';
 
 @ApiTags('Users')
 @Controller('users')
@@ -28,9 +29,9 @@ export class UsersController {
     return this.usersService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.usersService.findOne(+id);
+  @Post('forget_password')
+  forgetPassword(@Body() forgetPasswordDto: forgetPasswordDto) {
+    return this.usersService.forgetPassword(forgetPasswordDto)
   }
 
   @Patch(':id')
